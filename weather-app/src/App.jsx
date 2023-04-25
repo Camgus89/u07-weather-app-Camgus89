@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faCloud, faCloudRain, faSnowflake } from '@fortawesome/free-solid-svg-icons';
 
 
+
 function App() {
   const [location, setLocation] = useState('');
   const [data, setData] = useState(null);
@@ -24,6 +25,7 @@ function App() {
       setLocation('');
     }
   };
+
 
   const toggleUnit = () => {
     setUnit(unit === 'metric' ? 'imperial' : 'metric');
@@ -46,7 +48,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (data) {
+    if (data && data.sys && data.weather) {
       const sunriseDate = new Date(data.sys.sunrise * 1000);
       const sunsetDate = new Date(data.sys.sunset * 1000);
       const options = {
