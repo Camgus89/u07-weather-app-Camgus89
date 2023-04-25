@@ -4,6 +4,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* background-color: black; */
 }
 
 body {
@@ -135,4 +136,26 @@ h1 {
 .icon {
   font-size: 5rem;
   margin-bottom: 1rem;
+}
+
+/* .days{
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  width: 100%;
+  margin: 1rem auto;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: rgba(238, 173, 7, 0.2);
+} */
+
+.forecast{
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  width: 100%;
+  margin: 1rem auto;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: rgba(255,255,255, 0.2);
 }
