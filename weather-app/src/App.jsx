@@ -136,6 +136,8 @@ const Forecast = () => {
         {unit === "metric" ? "Fahrenheit" : "Celsius"}
       </button>
     </div>
+
+
     <input
       value={location}
       onChange={(event) => setLocation(event.target.value)}
@@ -157,6 +159,8 @@ const Forecast = () => {
           </h1>
         )}
       </div>
+
+      
       <div className="description">
       {data?.weather && <p>{data.weather[0].main}</p>}
       </div>
