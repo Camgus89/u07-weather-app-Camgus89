@@ -11,8 +11,30 @@ function App() {
   const [unit, setUnit] = useState('metric'); // default to Celsius
   const [forecastData, setForecastData] = useState(null);
 
+  // Add this code to get the user's current location
+  useEffect(() => {
+    const success = async (position) => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=${unit}&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
+      try {
+        const response = await axios.get(url);
+        setData(response.data);
+      } catch (error) {
+        console.log("An error occurred:", error);
+      }
+    };
+
+    const error = (err) => {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    };
+
+    navigator.geolocation.getCurrentPosition(success, error);
+  }, [unit]);
+
+
   const getForecastData = async () => {
-    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${data.name}&units=${unit}&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${data.name}&units=metric&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
     try {
       const response = await axios.get(url);
       setForecastData(response.data);
@@ -23,7 +45,7 @@ function App() {
 
   const searchLocation = async (event) => {
     if (event.key === 'Enter') {
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${unit}&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
       try {
         const response = await axios.get(url);
         setData(response.data);
@@ -77,8 +99,8 @@ function App() {
     const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
     const icon = getWeatherIcon(forecast.weather[0].main);
     const temperature = unit === 'metric' 
-      ? `${forecast.main.temp.toFixed()} °C`
-      : `${(forecast.main.temp * 9 / 5 + 32).toFixed()} °F`;
+    ? `${forecast.main.temp.toFixed()} °C`
+    : `${(forecast.main.temp * 9/5 + 32).toFixed()} °F`;
     return (
       <div className="forecast-item" key={forecast.dt}>
         <p>{dayOfWeek}</p>
