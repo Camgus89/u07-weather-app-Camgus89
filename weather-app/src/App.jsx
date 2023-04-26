@@ -10,6 +10,7 @@ function App() {
   const [sunsetTime, setSunsetTime] = useState('');
   const [unit, setUnit] = useState('metric'); // default to Celsius
   const [forecastData, setForecastData] = useState(null);
+  const [hourlyForecastData, setHourlyForecastData] = useState([]);
 
   // Add this code to get the user's current location
   useEffect(() => {
@@ -33,15 +34,16 @@ function App() {
   }, [unit]);
 
 
-  const getForecastData = async () => {
-    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${data.name}&units=metric&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
-    try {
-      const response = await axios.get(url);
-      setForecastData(response.data);
-    } catch (error) {
-      console.log('An error occurred:', error);
-    }
-  };
+const getForecastData = async () => {
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=${data.name}&units=metric&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
+  try {
+    const response = await axios.get(url);
+    setForecastData(response.data);
+    setHourlyForecastData(response.data.list.slice(0, 8)); // add this line
+  } catch (error) {
+    console.log('An error occurred:', error);
+  }
+};
 
   const searchLocation = async (event) => {
     if (event.key === 'Enter') {
@@ -182,13 +184,23 @@ const Forecast = () => {
         )}
       </div>
 
-      
       <div className="description">
       {data?.weather && <p>{data.weather[0].main}</p>}
       </div>
       <div className="icon">
         {data?.weather && getWeatherIcon(data.weather[0].main)}
       </div>
+      <div className="hourly-forecast">
+  {hourlyForecastData.map((forecast) => (
+    <div className="hourly-forecast-item" key={forecast.dt}>
+      <p>{new Date(forecast.dt * 1000).toLocaleTimeString()}</p>
+      <div>{getWeatherIcon(forecast.weather[0].main)}</div>
+      <p>{`${forecast.main.temp.toFixed()}°C`}</p>
+      <p>{`${forecast.wind.speed} m/s`}</p>
+      <p>{`${forecast.main.humidity}%`}</p>
+    </div>
+  ))}
+</div>
     </div>
     <div className='sunrise'>
       {sunriseTime && <p>Sunrise time: {sunriseTime}</p>}

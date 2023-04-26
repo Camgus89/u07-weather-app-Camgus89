@@ -148,3 +148,69 @@ h1 {
   border-radius: 12px;
   background-color: rgba(255,255,255, 0.2);
 }
+
+.hourly-forecast {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none; /* Ta bort standard webbläsarens scrollbar */
+  -ms-overflow-style: none; /* Ta bort scrollbar i Internet Explorer */
+  margin-top: 2rem;
+}
+.hourly-forecast::-webkit-scrollbar {
+  display: none; /* Ta bort scrollbar i webbläsare baserade på WebKit */
+}
+.hourly-forecast-item {
+  flex: 0 0 auto; /* Stoppa inte upp elementen */
+  padding: 0 10px; /* Lägg till lite utrymme mellan elementen */
+}
+.hourly-forecast-item p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* .hourly-forecast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 12%;
+  background-color: rgba(255,255,255, 0.2);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  text-align: center;
+} */
+
+/* .hourly-forecast {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.hourly-forecast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 12%;
+  background-color: rgba(255,255,255, 0.2);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* padding: 1rem; */
+  /* text-align: center;
+}
+
+.hourly-forecast-item p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.hourly-forecast-item div {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}  */
+.hourly-forecast-item div {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+} 
