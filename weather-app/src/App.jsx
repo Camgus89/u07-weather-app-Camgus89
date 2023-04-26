@@ -34,16 +34,16 @@ function App() {
   }, [unit]);
 
 
-const getForecastData = async () => {
-  const url = `https://api.openweathermap.org/data/2.5/forecast?q=${data.name}&units=metric&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
-  try {
-    const response = await axios.get(url);
-    setForecastData(response.data);
-    setHourlyForecastData(response.data.list.slice(0, 8)); // add this line
-  } catch (error) {
-    console.log('An error occurred:', error);
-  }
-};
+  const getForecastData = async () => {
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${data.name}&units=metric&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
+    try {
+      const response = await axios.get(url);
+      setForecastData(response.data);
+      setHourlyForecastData(response.data.list.slice(0, 5 * 8)); // get 5 days of hourly forecast data
+    } catch (error) {
+      console.log('An error occurred:', error);
+    }
+  };
 
   const searchLocation = async (event) => {
     if (event.key === 'Enter') {
@@ -62,7 +62,7 @@ const getForecastData = async () => {
     setUnit(unit === 'metric' ? 'imperial' : 'metric');
   };
 
-  const getWeatherIcon = (condition) => {
+  const getWeatherIcon = (condition, unit) => {
     switch (condition) {
       case 'Clear':
         return <FontAwesomeIcon icon={faSun} />;
@@ -95,61 +95,43 @@ const getForecastData = async () => {
     }
   }, [data]);
 
-<div className="forecast">
-  {forecastData && forecastData.list.slice(0, 5).map((forecast) => {
-    const date = new Date(forecast.dt * 1000);
-    const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
-    const icon = getWeatherIcon(forecast.weather[0].main);
-    const temperature = unit === 'metric' 
-    ? `${forecast.main.temp.toFixed()} °C`
-    : `${(forecast.main.temp * 9/5 + 32).toFixed()} °F`;
+  const Forecast = () => {
+    if (!forecastData) {
+      return null;
+    }
+  
+    const options = {
+      weekday: 'long',
+      hour: 'numeric',
+      hour12: true
+    };
+  
     return (
-      <div className="forecast-item" key={forecast.dt}>
-        <p>{dayOfWeek}</p>
-        <div>{icon}</div>
-        <p>{temperature}</p>
+      <div className="forecast">
+        {forecastData.list.map((item, index) => {
+          if (index % 8 !== 0) {
+            return null;
+          }
+  
+          const date = new Date(item.dt * 1000);
+          const formattedDate = date.toLocaleDateString('en-US', options);
+          const icon = getWeatherIcon(item.weather[0].main);
+  
+          return (
+            <div className="forecast-item" key={item.dt}>
+              <div>{formattedDate}</div>
+              <div>{icon}</div>
+              <div>
+                {unit === 'metric'
+                  ? `${item.main.temp.toFixed()} °C`
+                  : `${(item.main.temp * 9 / 5 + 32).toFixed()} °F`}
+              </div>
+            </div>
+          );
+        })}
       </div>
     );
-  })}
-</div>
-
-const Forecast = () => {
-  if (!forecastData) {
-    return null;
-  }
-
-  const options = {
-    weekday: 'long',
-    hour: 'numeric',
-    hour12: true
   };
-
-  return (
-    <div className="forecast">
-      {forecastData.list.map((item, index) => {
-        if (index % 8 !== 0) {
-          return null;
-        }
-
-        const date = new Date(item.dt * 1000);
-        const formattedDate = date.toLocaleDateString('en-US', options);
-        const icon = getWeatherIcon(item.weather[0].main);
-
-        return (
-          <div className="forecast-item" key={item.dt}>
-            <div>{formattedDate}</div>
-            <div>{icon}</div>
-            <div>
-              {unit === 'metric'
-                ? `${item.main.temp.toFixed()} °C`
-                : `${(item.main.temp * 9 / 5 + 32).toFixed()} °F`}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
 
   return (
 <div className="app">
@@ -160,7 +142,6 @@ const Forecast = () => {
         {unit === "metric" ? "Fahrenheit" : "Celsius"}
       </button>
     </div>
-
 
     <input
       value={location}
@@ -181,34 +162,16 @@ const Forecast = () => {
               ? `${data.main.temp.toFixed()} °C`
               : `${(data.main.temp * 9 / 5 + 32).toFixed()} °F`}
           </h1>
+          
         )}
       </div>
-
       <div className="description">
       {data?.weather && <p>{data.weather[0].main}</p>}
       </div>
       <div className="icon">
         {data?.weather && getWeatherIcon(data.weather[0].main)}
       </div>
-      <div className="hourly-forecast">
-  {hourlyForecastData.map((forecast) => (
-    <div className="hourly-forecast-item" key={forecast.dt}>
-      <p>{new Date(forecast.dt * 1000).toLocaleTimeString()}</p>
-      <div>{getWeatherIcon(forecast.weather[0].main)}</div>
-      <p>{`${forecast.main.temp.toFixed()}°C`}</p>
-      <p>{`${forecast.wind.speed} m/s`}</p>
-      <p>{`${forecast.main.humidity}%`}</p>
-    </div>
-  ))}
-</div>
-    </div>
-    <div className='sunrise'>
-      {sunriseTime && <p>Sunrise time: {sunriseTime}</p>}
-      <div className='sunset'>
-        {sunsetTime && <p>Sunset time: {sunsetTime}</p>}
-      </div>
-    </div>
-    {data?.name !== undefined &&
+      {data?.name !== undefined &&
       <div className="bottom">
         <div className="feels">
           {data?.main && (
@@ -230,10 +193,38 @@ const Forecast = () => {
         </div>
       </div>
     }
+      <hr></hr>
+      <p>Daily weather</p>
+      <div className="hourly-forecast">
+  {hourlyForecastData.map((forecast) => (
+    <div className="hourly-forecast-item" key={forecast.dt}>
+      <p>{new Date(forecast.dt * 1000).toLocaleTimeString()}</p>
+      <div>{getWeatherIcon(forecast.weather[0].main)}</div>
+      <p>{`${forecast.main.temp.toFixed()}°C`}</p>
+      <p>{`${forecast.wind.speed} m/s`}</p>
+      <p>{`${forecast.main.humidity}%`}</p>
+    </div>
+    
+  ))}
+  
+</div>
+    </div>
+    <hr></hr>
+    <div className='sunrise'>
+      {sunriseTime && <p>Sunrise time: {sunriseTime}</p>}
+      <div className='sunset'>
+        {sunsetTime && <p>Sunset time: {sunsetTime}</p>}
+      </div>
+    </div>
+    <hr></hr>
+    <p>Weekly weather</p>
     <div className='forecast'>
       <Forecast />
+      
     </div>
+    
   </div>
+  
 </div>
       
   );
