@@ -11,8 +11,10 @@ function App() {
   const [unit, setUnit] = useState('metric'); // default to Celsius
   const [forecastData, setForecastData] = useState(null);
   const [hourlyForecastData, setHourlyForecastData] = useState([]);
-  
-  // Add this code to get the user's current location
+  const [userLocation, setUserLocation] = useState(false); // add userLocation state variable
+
+
+   // Add this code to get the user's current location
   useEffect(() => {
     const success = async (position) => {
       const latitude = position.coords.latitude;
@@ -21,6 +23,7 @@ function App() {
       try {
         const response = await axios.get(url);
         setData(response.data);
+        setUserLocation(true); // set userLocation to true after getting user's location
       } catch (error) {
         console.log("An error occurred:", error);
       }
@@ -29,9 +32,13 @@ function App() {
     const error = (err) => {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     };
+    
+    // check if userLocation is false before getting user's location
+    if (!userLocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
+    }
+  }, [unit, userLocation]); // add userLocation to useEffect dependencies
 
-    navigator.geolocation.getCurrentPosition(success, error);
-  }, [unit]);
 
 
   const getForecastData = async () => {
@@ -47,7 +54,7 @@ function App() {
 
   const searchLocation = async (event) => {
     if (event.key === 'Enter') {
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${unit}&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
       try {
         const response = await axios.get(url);
         setData(response.data);
@@ -136,13 +143,6 @@ function App() {
   return (
 <div className="app">
   <div className="search">
-    <div className='change'>
-      Choose degree:
-      <button className="unit-btn" onClick={toggleUnit}>
-        {unit === "metric" ? "Fahrenheit" : "Celsius"}
-      </button>
-    </div>
-
     <input
       value={location}
       onChange={(event) => setLocation(event.target.value)}
@@ -164,6 +164,7 @@ function App() {
           </h1>
           
         )}
+        <button className="change" onClick={toggleUnit}>{unit === 'imperial' ? 'Switch to Celsius' : 'Switch to Fahrenheit'}</button>
       </div>
       <div className="description">
       {data?.weather && <p>{data.weather[0].main}</p>}
