@@ -11,7 +11,7 @@ function App() {
   const [unit, setUnit] = useState('metric'); // default to Celsius
   const [forecastData, setForecastData] = useState(null);
   const [hourlyForecastData, setHourlyForecastData] = useState([]);
-
+  
   // Add this code to get the user's current location
   useEffect(() => {
     const success = async (position) => {

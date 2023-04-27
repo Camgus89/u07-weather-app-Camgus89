@@ -167,10 +167,6 @@ h1 {
   height: 100%;
 }
 
-.hourly-forecast::-webkit-scrollbar {
-  display: none; /* Ta bort scrollbar i webbläsare baserade på WebKit */
-}
-
 .hourly-forecast-item {
   flex: 0 0 auto; /* Stoppa inte upp elementen */
   padding: 0 10px; /* Lägg till lite utrymme mellan elementen */
@@ -180,19 +176,6 @@ h1 {
   margin: 0.5rem 0;
   font-size: 0.9rem;
   font-weight: bold;
-}
-
-.hourly-forecast:hover::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.hourly-forecast:hover::-webkit-scrollbar-thumb:active {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-.hourly-forecast:hover::-webkit-scrollbar {
-  height: 10px;
-  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .hourly-forecast:hover::-webkit-scrollbar-track {
