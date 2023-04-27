@@ -195,3 +195,7 @@ h1 {
 .hourly-forecast::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0);
 }
+.current-date{
+  font-size: 1.6rem;
+  margin: 1rem;
+}

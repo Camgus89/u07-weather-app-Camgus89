@@ -12,7 +12,7 @@ function App() {
   const [forecastData, setForecastData] = useState(null);
   const [hourlyForecastData, setHourlyForecastData] = useState([]);
   const [userLocation, setUserLocation] = useState(false); // add userLocation state variable
-
+  const [currentDate, setCurrentDate] = useState(''); // add currentDate state variable
 
    // Add this code to get the user's current location
   useEffect(() => {
@@ -39,7 +39,17 @@ function App() {
     }
   }, [unit, userLocation]); // add userLocation to useEffect dependencies
 
-
+    // Add this code to update the current date
+    useEffect(() => {
+      const options = {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        week: 'long'
+      };
+      const date = new Date();
+      setCurrentDate(date.toLocaleString('en-EN', options));
+    }, []);
 
   const getForecastData = async () => {
     const url = `https://api.openweathermap.org/data/2.5/forecast?q=${data.name}&units=metric&appid=adbed9b5fb5da9cbb6ba03b8a3c85042`;
@@ -143,6 +153,7 @@ function App() {
   return (
 <div className="app">
   <div className="search">
+  <div className="current-date">{currentDate}</div>
     <input
       value={location}
       onChange={(event) => setLocation(event.target.value)}
