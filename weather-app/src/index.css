@@ -62,9 +62,14 @@ h1 {
 
 .change {
   text-align: center;
-  padding: .7rem 1.5rem;
+  padding: .2rem 1.5rem;
   font-size: 1.2rem;
   color: #f8f8f8;
+  border: 1px solid rgba(255,255,255, 0.8);
+  background: rgba(255,255,255, 0.1);
+  border-radius: 25px;
+  margin: 15px 15px;
+  
 }
 
 .unit-btn {
@@ -166,6 +171,7 @@ h1 {
   width: 10px;
   height: 100%;
 }
+
 
 .hourly-forecast-item {
   flex: 0 0 auto; /* Stoppa inte upp elementen */
