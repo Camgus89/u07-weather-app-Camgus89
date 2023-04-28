@@ -126,7 +126,7 @@ h1 {
   margin: 1rem auto;
   padding: 1rem;
   border-radius: 12px;
-  background-color: rgba(238, 173, 7, 0.2);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .icon {
@@ -189,27 +189,29 @@ h1 {
   margin: 1rem;
 }
 
-.footer{
+.footer {
   font-size: 1rem;
   text-align: center;
   padding: 1.6rem;
 }
 
-.temp-container{
+.temp-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
- .temp-box{
+
+.temp-box {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   width: 100%;
- }
+}
 
- .temp-icon{
+.temp-icon {
   font-size: 4rem;
- }
-strong{
+}
+
+strong {
   background: none;
 }
