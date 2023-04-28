@@ -18,7 +18,7 @@ function App() {
   function Footer() {
     return (
       <footer>
-        camilla.gustafsson@chasacademy.se!!
+        camilla.gustafsson@chasacademy.se
       </footer>
     );
   }
