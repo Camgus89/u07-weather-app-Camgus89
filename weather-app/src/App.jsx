@@ -176,26 +176,29 @@ function App() {
       </div>
       <div className="container">
         <div className="top">
-          <div className="location">
-            <p>{data?.name}</p>
+  
+          <div className='temp-container'>
+            <div className='temp-box'>
+              <div>
+                <p>{data?.name}</p>
+                {data?.main && (
+                  <h1>
+                    {unit === 'metric'
+                      ? `${data.main.temp.toFixed()} °C`
+                      : `${(data.main.temp * 9 / 5 + 32).toFixed()} °F`}
+                  </h1>)}
+              </div>
+              <div>
+                {data?.weather && <p>{data.weather[0].main}</p>}
+                <div className='temp-icon'>{data?.weather && getWeatherIcon(data.weather[0].main)}</div>
+              </div>
+            </div>
+            <div className='temp-switch'>
+              <button className="change" onClick={toggleUnit}>{unit === 'imperial' ? 'Change to °C' : 'Change to °F'}</button>
+            </div>
           </div>
-          <div className="temp">
-            {data?.main && (
-              <h1>
-                {unit === 'metric'
-                  ? `${data.main.temp.toFixed()} °C`
-                  : `${(data.main.temp * 9 / 5 + 32).toFixed()} °F`}
-              </h1>
 
-            )}
-            <button className="change" onClick={toggleUnit}>{unit === 'imperial' ? 'Switch to Celsius' : 'Switch to Fahrenheit'}</button>
-          </div>
-          <div className="description">
-            {data?.weather && <p>{data.weather[0].main}</p>}
-          </div>
-          <div className="icon">
-            {data?.weather && getWeatherIcon(data.weather[0].main)}
-          </div>
+
           {data?.name !== undefined &&
             <div className="bottom">
               <div className="feels">
