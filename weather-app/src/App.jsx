@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSun, faCloud, faCloudRain, faSnowflake, faWind } from '@fortawesome/free-solid-svg-icons';
+import { faSun, faCloud, faCloudRain, faSnowflake } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [location, setLocation] = useState('');
@@ -13,12 +13,12 @@ function App() {
   const [hourlyForecastData, setHourlyForecastData] = useState([]);
   const [userLocation, setUserLocation] = useState(false); // add userLocation state variable
   const [currentDate, setCurrentDate] = useState(''); // add currentDate state variable
- 
+
 
   function Footer() {
     return (
       <footer>
-        camilla.gustafsson@chasacademy.se
+        camilla.gustafsson@chasacademy.se!!
       </footer>
     );
   }
@@ -249,7 +249,7 @@ function App() {
         </div>
         <hr></hr>
         <div className='footer'>
-        <Footer />
+          <Footer />
         </div>
       </div>
 
