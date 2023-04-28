@@ -14,8 +14,6 @@ function App() {
   const [userLocation, setUserLocation] = useState(false); // add userLocation state variable
   const [currentDate, setCurrentDate] = useState(''); // add currentDate state variable
 
-console.log(import.meta.env.VITE_APIKEY);
-
   function Footer() {
     return (
       <footer>
