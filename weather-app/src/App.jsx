@@ -176,7 +176,7 @@ function App() {
       </div>
       <div className="container">
         <div className="top">
-  
+
           <div className='temp-container'>
             <div className='temp-box'>
               <div>
@@ -194,7 +194,10 @@ function App() {
               </div>
             </div>
             <div className='temp-switch'>
-              <button className="change" onClick={toggleUnit}>{unit === 'imperial' ? 'Change to °C' : 'Change to °F'}</button>
+              <button className="change" onClick={toggleUnit}>
+                {unit === 'imperial' ? 'Change to ' : 'Change to '}
+                <strong>{unit === 'imperial' ? '°C' : '°F'}</strong>
+              </button>
             </div>
           </div>
 

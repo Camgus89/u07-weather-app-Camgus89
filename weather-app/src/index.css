@@ -210,3 +210,6 @@ h1 {
  .temp-icon{
   font-size: 4rem;
  }
+strong{
+  background: none;
+}
