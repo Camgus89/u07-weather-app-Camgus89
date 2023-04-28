@@ -13,6 +13,15 @@ function App() {
   const [hourlyForecastData, setHourlyForecastData] = useState([]);
   const [userLocation, setUserLocation] = useState(false); // add userLocation state variable
   const [currentDate, setCurrentDate] = useState(''); // add currentDate state variable
+ 
+
+  function Footer() {
+    return (
+      <footer>
+        camilla.gustafsson@chasacademy.se
+      </footer>
+    );
+  }
 
   // Add this code to get the user's current location
   useEffect(() => {
@@ -45,7 +54,10 @@ function App() {
       weekday: 'long',
       month: 'long',
       day: 'numeric',
-      week: 'long'
+      week: 'long',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
     };
     const date = new Date();
     setCurrentDate(date.toLocaleString('en-EN', options));
@@ -150,6 +162,7 @@ function App() {
     );
   };
 
+
   return (
     <div className="app">
       <div className="search">
@@ -234,7 +247,10 @@ function App() {
           <Forecast />
 
         </div>
-
+        <hr></hr>
+        <div className='footer'>
+        <Footer />
+        </div>
       </div>
 
     </div>
